@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
   res.send("¡Hola, mundo!");
 });
 
-app.use("/posts", postRoutes);
+app.use("/post", postRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor running. PORT: ${PORT}`);
