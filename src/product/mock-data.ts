@@ -1,7 +1,7 @@
 import crypto from "crypto";
 
 /** Hardcoded post for now, will use a orm and DB in a future */
-const allPost = [
+const allProduct = [
   {
     id: crypto.randomUUID(),
     title: "Explorando las maravillas del mundo",
@@ -40,6 +40,4 @@ const allPost = [
   },
 ];
 
-export const getAllPosts = () => {
-  return allPost;
-};
+export default allProduct;
