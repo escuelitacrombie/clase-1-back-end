@@ -5,6 +5,7 @@ type Product = {
   date: string;
   category: string;
   content: string;
+  seller: string | undefined
 };
 
 export default Product;

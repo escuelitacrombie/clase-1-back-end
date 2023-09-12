@@ -4,7 +4,9 @@ import {
   deleteProduct,
   getAllProducts,
   getProductById,
+  getProductByPageAndItems,
   updateProduct,
+  updateProductAddingSeller,
 } from "./services";
 
 const productRoute = Router();
@@ -16,7 +18,7 @@ productRoute.get("/", (req, res) => {
 productRoute.delete("/:id", (req, res) => {
   const id = req.params.id;
   deleteProduct(id);
-  res.json(getAllProducts());
+  res.status(200).json({ products: getAllProducts(), message: "Deleted Success!" });
 });
 
 productRoute.get("/:id", (req, res) => {
@@ -27,13 +29,30 @@ productRoute.get("/:id", (req, res) => {
 productRoute.post("/", (req, res) => {
   const product = req.body;
   createProduct(product);
-  res.json(product);
+  res.status(200).json(product);
 });
 
 productRoute.put("/:id", (req, res) => {
   const id = req.params.id;
   const product = req.body;
-  res.json(updateProduct(id, product));
+  res.status(200).json({product: updateProduct(id, product), message: "Updated Success!"});
 });
+
+productRoute.get('/:page/:items', (req, res) => {
+  const page = parseInt(req.params.page);
+  const items = parseInt(req.params.items);
+
+    const products = getProductByPageAndItems(page, items);
+    res.json(products);
+
+});
+
+//probablemente es mejor agregarlo desde el body.
+productRoute.put("/:idProduct/:idSeller", (req, res) => {
+  const idProduct = req.params.idProduct;
+  const iDSeller = req.params.idSeller;
+  res.json(updateProductAddingSeller(idProduct, iDSeller));
+});
+
 
 export default productRoute;

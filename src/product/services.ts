@@ -1,3 +1,4 @@
+import allSellers from "../seller/mock-dataSeller";
 import Product from "../types/product";
 import allProduct from "./mock-data";
 
@@ -25,3 +26,22 @@ export const deleteProduct = (id: string) => {
   allProduct.splice(index, 1);
   return id;
 };
+
+export const getProductByPageAndItems = (page: number, items:number) => {
+
+  const arrProducts = [...allProduct];
+
+  return {
+    page:page, 
+    items:[arrProducts.length < items ? arrProducts :  arrProducts.splice(0, items)]
+  }
+}
+
+export const updateProductAddingSeller = (idProduct: string, idSeller: string) => {
+  const seller = allSellers.find((s) => s.id === idSeller);
+  allProduct.forEach(element => {
+    idProduct === element.id ? element.seller = seller?.name : undefined // sin el signo de pregunta me tira error
+  });
+
+  return allProduct.find((p) => p.id === idProduct);
+}
