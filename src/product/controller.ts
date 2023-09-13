@@ -27,7 +27,7 @@ productRoute.get("/:id", (req, res) => {
 productRoute.post("/", (req, res) => {
   const product = req.body;
   createProduct(product);
-  res.json(product);
+  res.status(201).json({message:"success"});
 });
 
 productRoute.put("/:id", (req, res) => {
