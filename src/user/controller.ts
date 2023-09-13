@@ -17,7 +17,7 @@ userRoute.get("/", (req,res)=>{
 userRoute.delete("/:id",(req,res)=>{
     const id = req.params.id;
     deleteUser(id);
-    res.json(getAllUsers());
+    res.status(200).json({message:"delete success"});
 });
 
 userRoute.get("/:id", (req,res)=>{
@@ -28,13 +28,14 @@ userRoute.get("/:id", (req,res)=>{
 userRoute.post("/", (req,res)=>{
     const user = req.body;
     createUser(user);
-    res.status(201).json({message:"success"});
+    res.status(201).json({message:"create success"});
 });
 
 userRoute.put("/:id", (req,res)=>{
     const id=req.params.id;
     const user = req.body;
-    res.json(updateUser(id,user));
+    res.status(200).json({message:"edit success"}).json(updateUser(id,user));
+    
 });
 
 export default userRoute;
