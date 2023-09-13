@@ -17,8 +17,12 @@ productRoute.get("/", (req, res) => {
 
 productRoute.delete("/:id", (req, res) => {
   const id = req.params.id;
-  deleteProduct(id);
-  res.status(200).json({ products: getAllProducts(), message: "Deleted Success!" });
+  if(deleteProduct(id) != null) { 
+     res.status(200).json({ products: getAllProducts(), message: "Deleted Success!" });
+  }else{
+    res.status(404).json({message: "error that product doesn't exist"})
+  }
+
 });
 
 productRoute.get("/:id", (req, res) => {
@@ -44,7 +48,6 @@ productRoute.get('/:page/:items', (req, res) => {
 
     const products = getProductByPageAndItems(page, items);
     res.json(products);
-
 });
 
 //probablemente es mejor agregarlo desde el body.

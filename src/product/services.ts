@@ -23,17 +23,21 @@ export const updateProduct = (id: string, product: Product) => {
 
 export const deleteProduct = (id: string) => {
   const index = allProduct.findIndex((product) => product.id === id);
-  allProduct.splice(index, 1);
-  return id;
+  if (index === -1) {
+    return null
+  } else {
+    allProduct.splice(index, 1)
+  }
+  return id
 };
 
-export const getProductByPageAndItems = (page: number, items:number) => {
+export const getProductByPageAndItems = (page: number, items: number) => {
 
-  const arrProducts = [...allProduct];
+  const products = allProduct.slice(page * items, page * items + items)
+
 
   return {
-    page:page, 
-    items:[arrProducts.length < items ? arrProducts :  arrProducts.splice(0, items)]
+    items: products
   }
 }
 
