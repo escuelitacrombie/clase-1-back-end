@@ -1,6 +1,9 @@
 import Product from "../types/product";
 import allProduct from "./mock-data";
 
+const succes:string= "item creado correctamente";
+
+
 export const getAllProducts = () => {
   return allProduct;
 };
@@ -11,7 +14,7 @@ export const getProductById = (id: string) => {
 
 export const createProduct = (product: Product) => {
   allProduct.push(product);
-  return product;
+  return succes;
 };
 
 export const updateProduct = (id: string, product: Product) => {

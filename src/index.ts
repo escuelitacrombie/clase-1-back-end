@@ -1,6 +1,7 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import productRoute from "./product/controller";
+import userRoute from "./user/controller";
 dotenv.config({ path: __dirname + "./../.env" });
 
 const app = express();
@@ -13,6 +14,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/product", productRoute);
+
+app.use("/user", userRoute);
 
 app.listen(PORT, () => {
   console.log(`Servidor running. PORT: ${PORT}`);
