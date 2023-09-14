@@ -28,3 +28,9 @@ export const deleteProduct = (id: string) => {
   allProduct.splice(index, 1);
   return id;
 };
+
+export const paginateProducts= (pagina:number, cantidadItems:number)=>{
+  const productosTotales=getAllProducts();
+  const result = productosTotales.slice((cantidadItems*pagina-cantidadItems),cantidadItems*pagina );
+  return result;
+}

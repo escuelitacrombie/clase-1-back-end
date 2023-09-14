@@ -4,6 +4,7 @@ import {
   deleteProduct,
   getAllProducts,
   getProductById,
+  paginateProducts,
   updateProduct,
 } from "./services";
 import Product from "../types/product";
@@ -27,17 +28,7 @@ productRoute.get("/:id", (req, res) => {
 productRoute.get("/:pagina/:items", (req,res)=>{
   const pagina = Number(req.params.pagina);
   const items = Number(req.params.items);
-  const productoVacio: Product[]=[];
-  const productos=getAllProducts();
-  for(let i=0; i<productos.length; i++){
-    if(i>(items*pagina - items) && i<=(items*pagina) ){
-      let objeto = getProductById(i.toString());
-      if(objeto){
-        productoVacio.push(objeto);
-      }
-    }
-  }
-  res.json(productoVacio);
+  res.json(paginateProducts(pagina,items));
 });
 
 
