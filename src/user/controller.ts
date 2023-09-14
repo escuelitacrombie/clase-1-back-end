@@ -39,8 +39,12 @@ userRoute.get("/:id/products",(req,res)=>{
 
 userRoute.post("/", (req,res)=>{
     const user = req.body;
+    if(!user.name || !user.username || !user.id || !user.dni ){
+        res.status(400).json({message:"faltan datos"});
+      }else{
     createUser(user);
-    res.status(201).json({message:"success"});
+    res.status(201).json({message:"user create success"});
+    }
 });
 
 userRoute.put("/:id", (req,res)=>{

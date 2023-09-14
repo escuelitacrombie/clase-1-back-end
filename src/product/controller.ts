@@ -34,7 +34,7 @@ productRoute.get("/:pagina/:items", (req,res)=>{
 
 productRoute.post("/", (req, res) => {
   const product = req.body;
-  if(!product.title || !product.author || !product.id || !product.content ){
+  if(!product.title || !product.author || !product.id || !product.content || !product.user_id ){
     res.status(400).json({message:"faltan datos"});
   }else{
     createProduct(product);

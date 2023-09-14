@@ -1,8 +1,8 @@
 type User ={ 
-    id:  `${string}-${string}-${string}-${string}-${string}`;
+    id:  string;
     name: string;
     username: string;
-    email:string;
-    phone: string;
+    dni:string;
+
 }
 export default User;
