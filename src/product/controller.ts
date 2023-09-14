@@ -34,8 +34,13 @@ productRoute.get("/:pagina/:items", (req,res)=>{
 
 productRoute.post("/", (req, res) => {
   const product = req.body;
-  createProduct(product);
-  res.status(201).json({message:"create success"});
+  if(!product.title || !product.author || !product.id || !product.content ){
+    res.status(400).json({message:"faltan datos"});
+  }else{
+    createProduct(product);
+    res.status(201).json({message:"create success"});
+  }
+  
 });
 
 productRoute.put("/:id", (req, res) => {
