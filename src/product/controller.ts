@@ -8,6 +8,8 @@ import {
   updateProduct,
   updateProductAddingSeller,
 } from "./services";
+import Product from "../types/product";
+import allProduct from "./mock-data";
 
 const productRoute = Router();
 
@@ -36,11 +38,44 @@ productRoute.post("/", (req, res) => {
   res.status(200).json(product);
 });
 
+
+//ejercicios hechos en update de product
+
 productRoute.put("/:id", (req, res) => {
   const id = req.params.id;
   const product = req.body;
-  res.status(200).json({product: updateProduct(id, product), message: "Updated Success!"});
+  const err = "Invalid " + errorMessage(product, id)
+  if(validateProduct(product, id)){
+    res.status(200).json({product: updateProduct(id, product), message: "Updated Success!"});
+  }else{
+    res.status(404).json({message: `${err}`});
+  }
 });
+
+const errorMessage = (p:Product, id: string) => {
+  const arrErrors = [];
+  if(allProduct.find((pro) => pro.id === id) === undefined){
+    arrErrors.push("Id")
+  }
+  if(typeof p.title != "string" ){
+    arrErrors.push("title")
+  }
+
+  return arrErrors.join(", ")
+}
+
+const validateProduct = (p:Product, id: string) =>{
+
+  if(allProduct.find((pro) => pro.id === id) != undefined){
+    if(typeof p.title === "string" || p.title === "" && typeof p.author === "string" || p.author === "" && typeof p.date=== "string" || p.date === "" && p.category === "string" || p.category === "" && typeof p.content === "string" || p.content === "" && typeof p.seller === "string" || p.seller === "" || typeof p.seller === null){
+      return true;
+    }else{
+      return false;
+    }
+  }else{
+    return false;
+  }
+}
 
 productRoute.get('/:page/:items', (req, res) => {
   const page = parseInt(req.params.page);
@@ -51,7 +86,7 @@ productRoute.get('/:page/:items', (req, res) => {
 });
 
 //probablemente es mejor agregarlo desde el body.
-productRoute.put("/:idProduct/:idSeller", (req, res) => {
+productRoute.put("/product/:idProduct/seller/:idSeller", (req, res) => {
   const idProduct = req.params.idProduct;
   const iDSeller = req.params.idSeller;
   res.json(updateProductAddingSeller(idProduct, iDSeller));

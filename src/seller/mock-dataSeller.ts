@@ -6,7 +6,21 @@ const allSellers : Seller[]= [
   {
     id: crypto.randomUUID(),
     name: "nico",
-    },
+    lastName: "muller",
+    dni: 43378154
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Ana",
+    lastName: "García",
+    dni: 38201678,
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Juan",
+    lastName: "Pérez",
+    dni: 29014567
+  }
 ];
 
 export default allSellers;

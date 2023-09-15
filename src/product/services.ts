@@ -15,10 +15,24 @@ export const createProduct = (product: Product) => {
   return product;
 };
 
-export const updateProduct = (id: string, product: Product) => {
-  const index = allProduct.findIndex((product) => product.id === id);
-  allProduct[index] = product;
-  return product;
+export const updateProduct = (id: string, product:any) => {
+
+  const p = allProduct.find((pro) => pro.id === id);
+
+  if(p != undefined){
+    const entr = Object.entries(p)
+    entr.shift();
+    const fromEntr = Object.fromEntries(entr);
+
+    for(const item in product){
+      if(product.item != ""){
+        fromEntr[item] = product[item];
+      }
+    }  
+    return fromEntr;
+  }else{   
+    return false;
+  }
 };
 
 export const deleteProduct = (id: string) => {
@@ -34,8 +48,6 @@ export const deleteProduct = (id: string) => {
 export const getProductByPageAndItems = (page: number, items: number) => {
 
   const products = allProduct.slice(page * items, page * items + items)
-
-
   return {
     items: products
   }
