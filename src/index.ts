@@ -76,3 +76,7 @@ app.post("/publicaciones", (req, res ) => {
     res.json({publicacion:results})
   })
  })
+
+app.get("/publicaciones/:id/comentarios",(req,res)=>{
+  db.query()//tERMINAR
+})
