@@ -1,7 +1,9 @@
 import express from "express";
+import { Router } from "express";
 import * as dotenv from "dotenv"; //lib ts para que poder traer la var de entorno
 import postRoutes from "./post/controller";
 import vendedorRoutes from "./vendedor/controllerVendedor";
+import db from "./config/db";
 dotenv.config({ path: __dirname + "./../.env" });
 
 const app = express();
@@ -31,3 +33,46 @@ app.use("/vendedor", vendedorRoutes);
 app.listen(PORT, () => {
   console.log(`Servidor running. PORT: ${PORT}`);
 });
+
+//=====================CONECTANDO API CON BDD =====================
+app.get("/usuario", (req, res) => {
+  db.query("SELECT * FROM usuario", (err: any, results: any, fields: any) => {
+    if (err) {
+      console.error("Error al realizar la consulta:", err);
+      return;
+    }
+    res.json({ users: results });
+  });
+});
+app.post("/publicaciones", (req, res ) => {
+  db.query(`INSERT INTO publicacion (contenido,id_usuario) values ("${req.body.contenido}",${req.body.id_usuario})`, (err:any,results:any,fields:any)=>{
+    if(err){
+      console.error("Error al crear la publicacion: ",err);
+      return;
+    }
+    else{
+      res.json({publicacion:results})
+    }
+  });
+})
+ 
+ app.get("/publicacion", (req, res ) => {
+  db.query("SELECT * FROM publicacion", (err: any, results: any, fields: any) => {
+    if (err) {
+      console.error("Error al realizar la consulta:", err);
+      return;
+    }
+    res.json({ publicacion: results });
+  });
+ })
+ 
+ app.get("/usuario/:id", (req, res ) => {
+  const id=req.params.id;
+  db.query(`SELECT * FROM usuario WHERE id="${id}"`,(err:any,results:any,fields:any)=>{
+    if(err){
+      console.error("Error al traer el usuario",err);
+      return;
+    }
+    res.json({publicacion:results})
+  })
+ })

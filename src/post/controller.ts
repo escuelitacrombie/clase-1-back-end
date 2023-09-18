@@ -32,7 +32,7 @@ postRoutes.delete("/:id",(req,res)=>{//Delete
 });
 
 postRoutes.post("/",(req,res)=>{//Create
-  
+   
   //Validacion explicada por lauti
   if(!req.body.id || !req.body.title || !req.body.author || !req.body.date || !req.body.category || !req.body.content || !req.body.id_vendedor){
     res.status(400).json({error:"Missing data"})
