@@ -78,5 +78,11 @@ app.post("/publicaciones", (req, res ) => {
  })
 
 app.get("/publicaciones/:id/comentarios",(req,res)=>{
-  db.query()//tERMINAR
+  db.query(`SELECT * FROM comentario WHERE id_publicacion="${req.params.id}"`,(err:any,results:any,fields:any)=>{
+    if(err){
+      console.error("Error al traer comentarios de una publicacion",err);
+      return;
+    }
+    res.json({publicacion:results})
+  })
 })
