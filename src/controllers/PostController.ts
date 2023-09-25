@@ -1,5 +1,4 @@
 import { Router } from "express";
-import db from "../config/db";
 import { createPost } from "../services/PostServices";
 
 const PostController = Router();

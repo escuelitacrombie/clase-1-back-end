@@ -1,17 +1,65 @@
-import db from "../config/db";
-import bcrypt from "bcrypt"
+import bcrypt from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+import { PrismaClient, User } from '@prisma/client';
 
-export const registerUser = async (user: any) => {
-    try {
+const prisma = new PrismaClient({
+  log: ['query'],
+});
 
-        const hash = await bcrypt.hash(user.contraseña, 10)
-        const results = await db.promise().query(
-            `INSERT INTO usuarios (email, contraseña, descripcion, foto, nombre ) 
-        VALUES ('${user.email}', '${hash}', '${user.descripcion}', '${user.foto}', '${user.nombre}')`
-        );
+export const registerUser = async (user: User) => {
+  try {
+    const hash = await bcrypt.hash(user.password, 10);
+    const result = await prisma.user.create({
+      data: {
+        ...user,
+        password: hash,
+      },
+      select: {
+        id: true,
+      },
+    });
 
-        return results;
-    } catch (error) {
-        console.log(error);
-    }
+    const token = sign(result, 'SECRETO', { expiresIn: '5m' });
+
+    return token;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUserById = async (id: number) => {
+  try {
+    const result = await prisma.post.findUnique({
+      where: { id },
+    });
+
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const loginUser = async (user: Pick<User, 'email' | 'password'>) => {
+  const userFound = await prisma.user.findUnique({
+    where: {
+      email: user.email,
+    },
+  });
+
+  if (!userFound) return null;
+
+  const isPasswordValid = await bcrypt.compare(
+    user.password,
+    String(userFound?.password)
+  );
+
+  if (!isPasswordValid) {
+    return null;
+  }
+
+  const token = sign(userFound, 'SECRETO', { expiresIn: '5m' });
+
+  return {
+    token,
+  };
 };
