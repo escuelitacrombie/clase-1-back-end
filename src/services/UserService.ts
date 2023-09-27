@@ -29,7 +29,7 @@ export const registerUser = async (user: User) => {
 
 export const getUserById = async (id: number) => {
   try {
-    const result = await prisma.post.findUnique({
+    const result = await prisma.user.findUnique({
       where: { id },
     });
 
