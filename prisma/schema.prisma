@@ -11,8 +11,15 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum UserRole {
+  Usuario
+  Admin
+}
+
+
 model User {
   id       Int    @id @default(autoincrement())
+  role     UserRole
   name     String
   password String
   email    String @unique

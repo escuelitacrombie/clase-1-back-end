@@ -2,9 +2,9 @@ import bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { PrismaClient, User } from '@prisma/client';
 
-const prisma = new PrismaClient({
-  log: ['query'],
-});
+const prisma = new PrismaClient();
+
+//Regristar un usuario
 
 export const registerUser = async (user: User) => {
   try {
@@ -19,13 +19,25 @@ export const registerUser = async (user: User) => {
       },
     });
 
-    const token = sign(result, 'SECRETO', { expiresIn: '5m' });
+    const token = sign(result, 'SECRETO', { expiresIn: '2h' });
 
     return token;
   } catch (error) {
     console.log(error);
   }
 };
+
+//Traer la lista de todos los usuarios
+export const getUsers = async () => {
+  try {
+    const result = await prisma.user.findMany()
+    return result
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//Traer un usuario por ID
 
 export const getUserById = async (id: number) => {
   try {
@@ -38,6 +50,8 @@ export const getUserById = async (id: number) => {
     console.log(error);
   }
 };
+
+//Loguear un usuario
 
 export const loginUser = async (user: Pick<User, 'email' | 'password'>) => {
   const userFound = await prisma.user.findUnique({
